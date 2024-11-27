@@ -259,7 +259,7 @@ compileApplaunchJava {
     sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-tasks.register('runProdServer', JavaExec) {
+tasks.register('runProdForge', JavaExec) {
     classpath = files(tasks.forgeJar)
     // systemProperties 'bsl.debug': 'true'
     systemProperties 'terminal.ansi': 'true'

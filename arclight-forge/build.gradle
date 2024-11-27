@@ -2,7 +2,7 @@ import io.izzel.arclight.gradle.tasks.RenameJarTask
 
 plugins {
     id 'architectury-plugin' version "${architect_plugin_version}"
-    id 'com.github.johnrengelman.shadow' version "${shadow_plugin_version}"
+    id 'com.gradleup.shadow' version "${shadow_plugin_version}"
 }
 
 apply plugin: io.izzel.arclight.gradle.ArclightGradlePlugin

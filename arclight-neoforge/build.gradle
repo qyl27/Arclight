@@ -2,7 +2,7 @@ import io.izzel.arclight.gradle.tasks.RenameJarTask
 
 plugins {
     id 'architectury-plugin' version "${architect_plugin_version}"
-    id 'com.github.johnrengelman.shadow' version "${shadow_plugin_version}"
+    id 'com.gradleup.shadow' version "${shadow_plugin_version}"
 }
 
 apply plugin: io.izzel.arclight.gradle.ArclightGradlePlugin
@@ -53,7 +53,7 @@ dependencies {
 
     implementation "io.izzel:tools:$toolsVersion"
     implementation "io.izzel.arclight:arclight-api:$apiVersion"
-    compileOnly("net.minecraftforge:eventbus:4.0.0") { transitive = false }
+//    compileOnly("net.minecraftforge:eventbus:4.0.0") { transitive = false }
     implementation project(':i18n-config')
 
     common(project(path: ':arclight-common', configuration: 'namedElements')) { transitive = false }
