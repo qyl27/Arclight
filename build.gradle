@@ -21,7 +21,7 @@ allprojects {
         fabricLoaderVersion = '0.16.9'
         fabricApiVersion = '0.110.0+1.21.3'
         forgeVersion = '53.0.25'
-        neoForgeVersion = '21.3.35-beta'    // Todo: qyl27: Patch architectury for neoforged/NeoForge#1485 (after 21.3.36) first, then upgrade
+        neoForgeVersion = '21.3.52-beta'
         apiVersion = '1.7.3'
         toolsVersion = '1.3.0'
         mixinVersion = '0.8.5'
@@ -55,7 +55,8 @@ jar.enabled = false
 
 tasks.register('collect', Copy) {
     destinationDir = file('build/libs')
-    // TODO arch loom updates from project(':bootstrap').tasks.forgeJar.outputs
+    // Fixme forge support.
+    // from project(':bootstrap').tasks.forgeJar.outputs
     from project(':bootstrap').tasks.neoforgeJar.outputs
     from project(':bootstrap').tasks.fabricJar.outputs
 }
