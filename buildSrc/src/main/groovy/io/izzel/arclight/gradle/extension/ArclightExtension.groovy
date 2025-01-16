@@ -1,4 +1,4 @@
-package io.izzel.arclight.gradle
+package io.izzel.arclight.gradle.extension
 
 import org.gradle.api.Project
 
@@ -7,7 +7,6 @@ class ArclightExtension {
     private final Project project
     private String mcVersion
     private String bukkitVersion
-    private String forgeVersion
     private File accessTransformer
     private File extraMapping
     private final MappingsConfiguration mappingsConfiguration = new MappingsConfiguration()
@@ -38,14 +37,6 @@ class ArclightExtension {
 
     void setAccessTransformer(File accessTransformer) {
         this.accessTransformer = accessTransformer
-    }
-
-    String getForgeVersion() {
-        return forgeVersion
-    }
-
-    void setForgeVersion(String forgeVersion) {
-        this.forgeVersion = forgeVersion
     }
 
     File getExtraMapping() {

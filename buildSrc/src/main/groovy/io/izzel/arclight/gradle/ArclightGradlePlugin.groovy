@@ -1,5 +1,6 @@
 package io.izzel.arclight.gradle
 
+import io.izzel.arclight.gradle.extension.ArclightExtension
 import io.izzel.arclight.gradle.tasks.BuildSpigotTask
 import io.izzel.arclight.gradle.tasks.DownloadBuildToolsTask
 import io.izzel.arclight.gradle.tasks.ProcessMappingTask
