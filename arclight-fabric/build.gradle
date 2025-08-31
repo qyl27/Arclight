@@ -12,6 +12,16 @@ architectury {
 loom {
     silentMojangMappingsLicense()
     accessWidenerPath = project(":arclight-common").loom.accessWidenerPath
+
+    runs {
+        server {
+            server()
+            runDir 'run/server'
+            vmArg '-XX:+IgnoreUnrecognizedVMOptions'
+            vmArg '-XX:+AllowEnhancedClassRedefinition'
+            property 'file.encoding', 'COMPAT'
+        }
+    }
 }
 
 configurations {

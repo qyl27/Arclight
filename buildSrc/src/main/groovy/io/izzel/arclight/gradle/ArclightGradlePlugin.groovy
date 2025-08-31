@@ -6,7 +6,6 @@ import io.izzel.arclight.gradle.runnable.SpigotBuilder
 import io.izzel.arclight.gradle.tasks.ProcessMappingTask
 import io.izzel.arclight.gradle.tasks.RemapSpigotTask
 import io.izzel.arclight.gradle.tasks.RenameJarTask
-import net.fabricmc.loom.LoomGradlePlugin
 import net.fabricmc.loom.configuration.mods.dependency.LocalMavenHelper
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Plugin
