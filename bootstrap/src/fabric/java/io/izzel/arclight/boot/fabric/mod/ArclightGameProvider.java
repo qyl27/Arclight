@@ -1,8 +1,10 @@
 package io.izzel.arclight.boot.fabric.mod;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.impl.game.minecraft.MinecraftGameProvider;
 import net.fabricmc.loader.impl.launch.FabricLauncher;
 import net.fabricmc.loader.impl.util.Arguments;
+import net.fabricmc.loader.impl.util.UrlUtil;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -14,36 +16,50 @@ import java.util.jar.Manifest;
 
 public class ArclightGameProvider extends MinecraftGameProvider {
 
-    private Path modFile;
+    private final Path modFile;
+
+    public ArclightGameProvider() {
+        try {
+            this.modFile = this.extract();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean locateGame(FabricLauncher launcher, String[] args) {
+        var result = super.locateGame(launcher, args);
+        if (result) {
+            Arguments arguments = super.getArguments();
+            String old = arguments.get(Arguments.ADD_MODS);
+            var builtinMods = System.getProperty("arclight.fabric.builtinMods");
+            var path = this.modFile.toAbsolutePath() + File.pathSeparator + builtinMods;
+            if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+                path += File.pathSeparator + UrlUtil.LOADER_CODE_SOURCE.toString();
+            }
+            if (old != null) {
+                path = old + File.pathSeparator + path;
+            }
+            arguments.put(Arguments.ADD_MODS, path);
+        }
+        return result;
+    }
 
     @Override
     public void initialize(FabricLauncher launcher) {
         System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
         System.setProperty("log4j.jul.LoggerAdapter", "io.izzel.arclight.boot.log.ArclightLoggerAdapter");
         System.setProperty("log4j.configurationFile", "arclight-log4j2.xml");
-        try {
-            this.modFile = this.extract();
-            launcher.addToClassPath(modFile);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            this.modFile = this.extract();
+//            launcher.addToClassPath(modFile);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
         for (var lib : System.getProperty("arclight.fabric.classpath").split(File.pathSeparator)) {
             launcher.addToClassPath(Paths.get(lib));
         }
         super.initialize(launcher);
-    }
-
-    @Override
-    public Arguments getArguments() {
-        Arguments arguments = super.getArguments();
-        String old = arguments.get(Arguments.ADD_MODS);
-        var builtinMods = System.getProperty("arclight.fabric.builtinMods");
-        var path = this.modFile.toString() + File.pathSeparator + builtinMods;
-        if (old != null) {
-            path = old + File.pathSeparator + path;
-        }
-        arguments.put(Arguments.ADD_MODS, path);
-        return arguments;
     }
 
     private String getArclightVersion() throws Exception {

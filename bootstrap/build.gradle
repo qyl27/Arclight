@@ -1,5 +1,9 @@
 import io.izzel.arclight.gradle.tasks.GenerateInstallerInfo
 import io.izzel.arclight.gradle.tasks.RenameAsyncCatcherTask
+import net.fabricmc.loom.api.LoomGradleExtensionAPI
+
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -279,7 +283,7 @@ tasks.register('runProdForge', JavaExec) {
     dependsOn project.tasks.forgeJar
 }
 
-tasks.register('runProdNeoforge', JavaExec) {
+tasks.register('runProdNeoForge', JavaExec) {
     classpath = files(tasks.neoforgeJar)
     // systemProperties 'bsl.debug': 'true'
     systemProperties 'terminal.ansi': 'true'
@@ -309,6 +313,44 @@ tasks.register('runProdFabric', JavaExec) {
     systemProperties 'arclight.remapper.dump': './.mixin.out/plugin_classes'
     systemProperties 'sun.stdout.encoding': 'UTF-8'
     systemProperties 'sun.stderr.encoding': 'UTF-8'
+    workingDir System.env.ARCLIGHT_PROD_DIR ?: file('run_prod/fabric')
+    maxHeapSize '4G'
+    args 'nogui'
+    standardInput System.in
+    javaLauncher.convention(javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    })
+    dependsOn project.tasks.fabricJar
+}
+
+tasks.register('runProdFabricMojmap', JavaExec) {
+    def arclightFabric = project(':arclight-fabric')
+    def devDir = rootProject.file('.gradle/arclight/dev/temp')
+    def mappingPath = devDir.toPath().resolve('mappings.tiny')
+    def remapClasspathFile = arclightFabric.file('.gradle/loom-cache/remapClasspath.txt')
+
+    doFirst {
+        def loom = arclightFabric.getExtensions().getByType(LoomGradleExtensionAPI.class)
+        def p = loom.getMappingsFile().toPath()
+
+        devDir.mkdirs()
+        Files.copy(p, mappingPath, StandardCopyOption.REPLACE_EXISTING)
+    }
+
+    classpath = files(tasks.fabricJar)
+    // systemProperties 'bsl.debug': 'true'
+    systemProperties 'terminal.ansi': 'true'
+    systemProperties 'mixin.debug.export': 'true'
+    systemProperties 'mixin.dumpTargetOnFailure': 'true'
+    systemProperties 'arclight.alwaysExtract': 'true'
+    systemProperties 'arclight.remapper.dump': './.mixin.out/plugin_classes'
+    systemProperties 'sun.stdout.encoding': 'UTF-8'
+    systemProperties 'sun.stderr.encoding': 'UTF-8'
+    systemProperties 'fabric.development': 'true'
+    systemProperties 'fabric.mappingPath': mappingPath.toString()
+    systemProperties 'fabric.gameMappingNamespace': 'official'
+    systemProperties 'fabric.runtimeMappingNamespace': 'named'
+    systemProperties 'fabric.remapClasspathFile': remapClasspathFile
     workingDir System.env.ARCLIGHT_PROD_DIR ?: file('run_prod/fabric')
     maxHeapSize '4G'
     args 'nogui'
