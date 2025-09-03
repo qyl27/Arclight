@@ -1,4 +1,5 @@
 plugins {
+    id 'java'
     id 'groovy'
     id 'maven-publish'
 }
@@ -11,26 +12,29 @@ repositories {
     }
     maven { url "https://maven.architectury.dev/" }
     maven { url "https://maven.fabricmc.net/" }
+    mavenLocal()
 }
 
 dependencies {
-    compileOnly(libs.lombok)
-    annotationProcessor(libs.lombok)
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
 
     implementation gradleApi()
     implementation localGroovy()
-    implementation 'org.ow2.asm:asm-tree:9.7.1'
-    implementation 'org.ow2.asm:asm-util:9.7.1'
-    implementation 'org.ow2.asm:asm-commons:9.7.1'
-    implementation 'org.cadixdev:at:0.1.0-rc1'
 
-    implementation(libs.loom)
-    implementation(libs.lorenz.core)
-    implementation(libs.lorenz.proguard)
-    implementation(libs.lorenz.tiny)
-    implementation(libs.mercury)
+    implementation libs.asm.commons
+    implementation libs.asm.tree
+    implementation libs.asm.util
+    implementation libs.commons.io
+
+    implementation libs.loom
+    implementation libs.tiny.remapper
+    implementation libs.lorenz.core
+    implementation libs.lorenz.proguard
+    implementation libs.lorenz.tiny
+    implementation libs.mercury
+    implementation libs.at
+
     implementation(libs.specialsource) { transitive false }
 
-    // https://mvnrepository.com/artifact/commons-io/commons-io
-    implementation("commons-io:commons-io:2.19.0")
 }

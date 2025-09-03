@@ -1,20 +1,33 @@
 [versions]
-lombok = '1.18.36'
+lombok = '1.18.38'
 
 architectury-loom = '1.10-SNAPSHOT'
+fabrtic-tiny-remapper = '0.11.1'
+
+asm = '9.7.1'
+commons-io = '2.19.0'
+
 lorenz = '0.5.8'
 lorenz-io-proguard = '0.5.8'
-lorenz-tiny = '4.0.2'
-mercury = '0.1.4.17'
+fabric-lorenz-tiny = '4.0.2'
+cadixdev-at = '0.1.0-rc1'
+cadixdev-mercury = '0.1.4.17'
 special-source = '1.11.5'
 
 [libraries]
-lombok = { module = 'org.projectlombok:lombok', version.ref = 'lombok'}
+lombok = { module = 'org.projectlombok:lombok', version.ref = 'lombok' }
 
 loom = { module = 'dev.architectury:architectury-loom', version.ref = 'architectury-loom' }
+tiny-remapper = { module = 'net.fabricmc:tiny-remapper', version.ref = 'fabrtic-tiny-remapper' }
+
+asm-commons = { module = 'org.ow2.asm:asm-commons', version.ref = 'asm' }
+asm-tree = { module = 'org.ow2.asm:asm-tree', version.ref = 'asm' }
+asm-util = { module = 'org.ow2.asm:asm-util', version.ref = 'asm' }
+commons-io = { module = 'commons-io:commons-io', version.ref = 'commons-io' }
+
 lorenz-core = { module = 'org.cadixdev:lorenz', version.ref = 'lorenz' }
 lorenz-proguard = { module = 'org.cadixdev:lorenz-io-proguard', version.ref = 'lorenz-io-proguard' }
-lorenz-tiny = { module = 'net.fabricmc:lorenz-tiny', version.ref = 'lorenz-tiny' }
-mercury = { module = 'dev.architectury:mercury', version.ref = 'mercury' }
+lorenz-tiny = { module = 'net.fabricmc:lorenz-tiny', version.ref = 'fabric-lorenz-tiny' }
+at = { module = 'org.cadixdev:at', version.ref = 'cadixdev-at' }
+mercury = { module = 'dev.architectury:mercury', version.ref = 'cadixdev-mercury' }
 specialsource = { module = 'net.md-5:SpecialSource', version.ref = 'special-source' }
-
